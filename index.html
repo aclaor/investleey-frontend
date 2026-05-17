@@ -1000,7 +1000,8 @@ async function fetchLiveTicker(){
   try{
     // Financial Modeling Prep free - get batch quotes
     var syms = 'AAPL,MSFT,GOOGL,NVDA,TSLA,META,AMZN,AMD,NFLX,JPM,SPY,QQQ,GLD,TLT';
-    var r = await fetch('https://financialmodelingprep.com/api/v3/quote/'+syms+'?apikey=demo');
+    var FMP_KEY='09Xf5iOI2MStdr52dQ7MiFFgauEUfELs';
+    var r = await fetch('https://financialmodelingprep.com/api/v3/quote/'+syms+'?apikey='+FMP_KEY);
     if(r.ok){
       var data = await r.json();
       if(Array.isArray(data) && data.length > 0){
@@ -1101,9 +1102,10 @@ async function fetchLiveMarkets(){
   ];
   try{
     // Try Financial Modeling Prep free API
-    var r1=await fetch('https://financialmodelingprep.com/api/v3/stock_market/actives?apikey=demo');
-    var r2=await fetch('https://financialmodelingprep.com/api/v3/stock_market/gainers?apikey=demo');
-    var r3=await fetch('https://financialmodelingprep.com/api/v3/stock_market/losers?apikey=demo');
+    var FMP_KEY='09Xf5iOI2MStdr52dQ7MiFFgauEUfELs'; // Replace with your free key from financialmodelingprep.com
+    var r1=await fetch('https://financialmodelingprep.com/api/v3/stock_market/actives?apikey='+FMP_KEY);
+    var r2=await fetch('https://financialmodelingprep.com/api/v3/stock_market/gainers?apikey='+FMP_KEY);
+    var r3=await fetch('https://financialmodelingprep.com/api/v3/stock_market/losers?apikey='+FMP_KEY);
     var active=r1.ok?await r1.json():fallbackActive;
     var gainers=r2.ok?await r2.json():fallbackGainers;
     var losers=r3.ok?await r3.json():fallbackLosers;
