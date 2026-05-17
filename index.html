@@ -664,6 +664,47 @@ html,body{background:var(--bg);color:var(--text);font-family:var(--body);font-si
   <div id="hd-list"></div>
   <div class="hd-btns"><button class="hd-btn-p" onclick="closeHomeDrop();showPricing()">⚡ Start Free Trial</button><button class="hd-btn-s" onclick="closeHomeDrop();showTutorial()">Tutorial</button></div>
 </div>
+<!-- NEWS MODAL -->
+<div class="info-modal hidden" id="news-modal">
+  <div class="info-box" style="width:920px;max-width:96vw;">
+    <button class="close-btn2" onclick="closeInfo('news-modal')">×</button>
+    <div class="info-title">📰 MARKET NEWS</div>
+    <div class="info-sub">Click any headline to read the full story on the source website</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+      <div style="background:#131926;border:1px solid #1e2a40;border-radius:8px;overflow:hidden;">
+        <div style="padding:10px 16px;border-bottom:1px solid #1e2a40;display:flex;justify-content:space-between;">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:700;color:#e92c2c;">📺 CNBC</span>
+          <a href="https://www.cnbc.com/markets/" target="_blank" style="font-size:9px;color:#607a99;text-decoration:none;">cnbc.com ↗</a>
+        </div>
+        <div id="news-cnbc" style="padding:10px;"></div>
+      </div>
+      <div style="background:#131926;border:1px solid #1e2a40;border-radius:8px;overflow:hidden;">
+        <div style="padding:10px 16px;border-bottom:1px solid #1e2a40;display:flex;justify-content:space-between;">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:700;color:#ff8000;">🌐 Reuters</span>
+          <a href="https://www.reuters.com/business/finance/" target="_blank" style="font-size:9px;color:#607a99;text-decoration:none;">reuters.com ↗</a>
+        </div>
+        <div id="news-reuters" style="padding:10px;"></div>
+      </div>
+      <div style="background:#131926;border:1px solid #1e2a40;border-radius:8px;overflow:hidden;">
+        <div style="padding:10px 16px;border-bottom:1px solid #1e2a40;display:flex;justify-content:space-between;">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:700;color:#d0e0f0;">📊 Wall Street Journal</span>
+          <a href="https://www.wsj.com/news/markets" target="_blank" style="font-size:9px;color:#607a99;text-decoration:none;">wsj.com ↗</a>
+        </div>
+        <div id="news-wsj" style="padding:10px;"></div>
+      </div>
+      <div style="background:#131926;border:1px solid #1e2a40;border-radius:8px;overflow:hidden;">
+        <div style="padding:10px 16px;border-bottom:1px solid #1e2a40;display:flex;justify-content:space-between;">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:700;color:#0af;">💹 Bloomberg</span>
+          <a href="https://www.bloomberg.com/markets" target="_blank" style="font-size:9px;color:#607a99;text-decoration:none;">bloomberg.com ↗</a>
+        </div>
+        <div id="news-bloomberg" style="padding:10px;"></div>
+      </div>
+    </div>
+    <div style="margin-top:12px;padding:8px 12px;background:#0a1628;border-radius:4px;font-family:'IBM Plex Mono',monospace;font-size:9px;color:#344a66;text-align:center;">
+      News links open directly to source websites. Investleey does not own or control external content.
+    </div>
+  </div>
+</div>
 <script type="text/javascript">
 var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
 (function(){var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
