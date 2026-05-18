@@ -587,10 +587,35 @@ html,body{background:var(--bg);color:var(--text);font-family:var(--body);font-si
     <div class="markets-title">US STOCK MARKETS</div>
     <div class="markets-sub">Live data · Click any stock to run ZEUS-AI forecast</div>
 
-    <div class="markets-grid">
-      <div class="market-card"><div class="market-card-title">🔥 Most Active</div><table class="market-table"><thead><tr><th># Stock</th><th>Price</th><th>Change</th></tr></thead><tbody id="hot-coins"></tbody></table></div>
-      <div class="market-card"><div class="market-card-title">📈 Top Gainers</div><table class="market-table"><thead><tr><th># Stock</th><th>Price</th><th>Change</th></tr></thead><tbody id="top-gainers"></tbody></table></div>
-      <div class="market-card"><div class="market-card-title">📉 Top Losers</div><table class="market-table"><thead><tr><th># Stock</th><th>Price</th><th>Change</th></tr></thead><tbody id="top-losers"></tbody></table></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div class="market-card">
+        <div class="market-card-title">⚡ Most Active</div>
+        <table class="market-table" style="width:100%;">
+          <thead><tr><th>#</th><th>Symbol</th><th>Price</th><th>Change</th></tr></thead>
+          <tbody id="tbl-active"></tbody>
+        </table>
+      </div>
+      <div class="market-card">
+        <div class="market-card-title">📈 Top Gainers</div>
+        <table class="market-table" style="width:100%;">
+          <thead><tr><th>#</th><th>Symbol</th><th>Price</th><th>Change</th></tr></thead>
+          <tbody id="tbl-gainers"></tbody>
+        </table>
+      </div>
+      <div class="market-card">
+        <div class="market-card-title">📉 Top Losers</div>
+        <table class="market-table" style="width:100%;">
+          <thead><tr><th>#</th><th>Symbol</th><th>Price</th><th>Change</th></tr></thead>
+          <tbody id="tbl-losers"></tbody>
+        </table>
+      </div>
+      <div class="market-card">
+        <div class="market-card-title">🔥 Trending</div>
+        <table class="market-table" style="width:100%;">
+          <thead><tr><th>#</th><th>Symbol</th><th>Price</th><th>Change</th></tr></thead>
+          <tbody id="tbl-trending"></tbody>
+        </table>
+      </div>
     </div>
   </div>
 </div>
