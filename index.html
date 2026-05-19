@@ -54,7 +54,8 @@ html,body{background:var(--bg);color:var(--text);font-family:var(--body);font-si
   .trades-panel{height:120px!important;}
 }
 @media(min-width:769px){
-  /* mobile-nav shown via JS */
+  .hamburger{display:none!important;}
+  #mobile-nav{display:none!important;}
 }
 .topbar{display:flex;align-items:center;justify-content:space-between;height:48px;padding:0 16px;background:var(--bg2);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;}
 .logo{font-family:var(--mono);font-size:16px;font-weight:700;color:#0ff;letter-spacing:1px;text-shadow:0 0 14px rgba(0,255,255,0.5);}
@@ -304,7 +305,8 @@ html,body{background:var(--bg);color:var(--text);font-family:var(--body);font-si
   .plans-grid{grid-template-columns:1fr!important;}
 }
 @media(min-width:769px){
-  /* mobile-nav shown via JS */
+  .hamburger{display:none!important;}
+  #mobile-nav{display:none!important;}
 }
 </style>
 </head>
@@ -312,7 +314,7 @@ html,body{background:var(--bg);color:var(--text);font-family:var(--body);font-si
 <div class="topbar">
   <div style="display:flex;align-items:center;gap:12px;">
     <div class="logo" id="logo-btn" style="cursor:pointer;user-select:none;">Stock<span>Vision</span></div>
-    <nav class="nav" id="desktop-nav" style="display:none;">
+    <nav class="nav" id="desktop-nav">
       <button class="nav-btn" onclick="showMarkets()">Markets</button>
       <button class="nav-btn" onclick="showPricing()">Pricing</button>
       <button class="nav-btn" onclick="showTutorial()">Tutorial</button>
