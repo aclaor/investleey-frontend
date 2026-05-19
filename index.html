@@ -985,7 +985,7 @@ function closeHomeDrop(){var d=document.getElementById('home-drop');if(d)d.class
 // ── PAYPAL ────────────────────────────────────
 async function startPayPal() {
   if (!currentUser){localStorage.setItem('zeus_pending_plan','pro');closePricing();showModal('signup');selectedPlan='pro';showToast('Create account first!','success');return;}
-  try{var r=await fetch(API_BASE+'/paypal/create-order',{method:'POST',headers:getAuthHeaders()});var d=await r.json();if(d.approval_url)window.location.href=d.approval_url;else showToast('PayPal error','error');}
+  try{var r=await fetch(API_BASE+'/paypal/create-order',{method:'POST',headers:{'Content-Type':'application/json',...getAuthHeaders()},body:JSON.stringify({user_id:currentUser?currentUser.id:'',email:currentUser?currentUser.email:''})});var d=await r.json();if(d.approve_url)window.location.href=d.approve_url;else if(d.approval_url)window.location.href=d.approval_url;else showToast('PayPal error: '+(d.detail||'unknown'),'error');}
   catch(e){showToast('PayPal error: '+e.message,'error');}
 }
 // ── CHART ─────────────────────────────────────
