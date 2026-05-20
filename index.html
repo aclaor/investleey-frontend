@@ -563,6 +563,20 @@ html,body{background:var(--bg);color:var(--text);font-family:var(--body);font-si
   </div>
 </div>
 <div class="toast" id="toast"></div>
+
+<!-- PASSWORD RESET MODAL -->
+<div class="modal-overlay hidden" id="reset-pwd-modal">
+  <div class="modal">
+    <div class="modal-title">RESET PASSWORD</div>
+    <div class="modal-sub">Enter your new password below.</div>
+    <div class="modal-form">
+      <input type="password" id="new-password" placeholder="New password (min 6 characters)">
+      <input type="password" id="confirm-password" placeholder="Confirm new password">
+      <div class="modal-err" id="reset-err"></div>
+      <button class="modal-submit" onclick="handlePasswordReset()">SET NEW PASSWORD</button>
+    </div>
+  </div>
+</div>
 <div id="bottom-section" style="position:fixed;bottom:0;left:0;right:0;background:#0b0f1a;border-top:1px solid #1e2a40;z-index:400;">
   <div style="display:flex;gap:8px;padding:6px 12px;border-bottom:1px solid #1e2a40;">
     <div class="idx-box" onclick="loadPair('SPY')" style="flex:1;background:#131926;border:1px solid #1e2a40;border-radius:6px;padding:6px 10px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:border-color .15s;" onmouseover="this.style.borderColor='#0ecb81'" onmouseout="this.style.borderColor='#1e2a40'">
@@ -891,6 +905,32 @@ function updateAuthUI(user) {
     btns.innerHTML='<button class="nav-btn" onclick="showModal(\'login\')">Log In</button><button class="nav-btn cta" onclick="showModal(\'signup\')">Sign Up</button>';
   }
 }
+async function handlePasswordReset() {
+  var newPass = document.getElementById('new-password').value;
+  var confirmPass = document.getElementById('confirm-password').value;
+  var errEl = document.getElementById('reset-err');
+  if(newPass.length < 6){
+    errEl.textContent='Password must be at least 6 characters.';
+    errEl.style.display='block';
+    return;
+  }
+  if(newPass !== confirmPass){
+    errEl.textContent='Passwords do not match.';
+    errEl.style.display='block';
+    return;
+  }
+  try{
+    var result = await supabaseClient.auth.updateUser({password: newPass});
+    if(result.error) throw result.error;
+    document.getElementById('reset-pwd-modal').classList.add('hidden');
+    history.replaceState({},'',window.location.pathname);
+    showToast('✅ Password updated successfully!','success');
+  }catch(e){
+    errEl.textContent='Error: '+(e.message||'Could not update password.');
+    errEl.style.display='block';
+  }
+}
+
 async function handleSignOut() {
   if (supabaseClient) await supabaseClient.auth.signOut();
   currentUser=null; currentSession=null; updateAuthUI(null);
@@ -1339,6 +1379,13 @@ async function runForecast(){
 // ── PAYPAL RETURN HANDLER ─────────────────────
 (function(){
   var params=new URLSearchParams(window.location.search);
+  if(params.get('type')==='recovery'){
+    // Password recovery - show reset form after Supabase sets session
+    setTimeout(function(){
+      var modal=document.getElementById('reset-pwd-modal');
+      if(modal)modal.classList.remove('hidden');
+    },1000);
+  }
   if(params.get('type')==='signup'){var pending=localStorage.getItem('zeus_pending_plan')||'free';setTimeout(function(){if(supabaseClient)supabaseClient.auth.getSession().then(function(res){if(res.data&&res.data.session){updateAuthUI(res.data.session.user);localStorage.removeItem('zeus_pending_plan');history.replaceState({},'',window.location.pathname);if(pending==='pro'){showToast('Email confirmed! Taking you to PayPal...','success');setTimeout(startPayPal,1500);}else{showToast('Email confirmed! Welcome!','success');}}});},1500);}
   if(params.get('payment')==='success'){var token=params.get('token');if(token&&currentUser){fetch(API_BASE+'/paypal/capture/'+token,{method:'POST',headers:getAuthHeaders()}).then(function(r){return r.json();}).then(function(d){if(d.status==='success'){showToast('🎉 Upgraded to Pro!','success');if(supabaseClient)supabaseClient.auth.getUser().then(function(u){if(u.data.user)updateAuthUI(u.data.user);});}});}history.replaceState({},'',window.location.pathname);}
   if(params.get('payment')==='cancel'){showToast('Payment cancelled.','error');history.replaceState({},'',window.location.pathname);}
