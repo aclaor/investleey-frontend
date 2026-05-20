@@ -771,6 +771,10 @@ if (window.supabase) {
   supabaseClient.auth.onAuthStateChange(function(event, session) {
     currentSession = session; currentUser = session ? session.user : null;
     updateAuthUI(currentUser);
+    if(event === 'PASSWORD_RECOVERY'){
+      var modal=document.getElementById('reset-pwd-modal');
+      if(modal) modal.classList.remove('hidden');
+    }
   });
   supabaseClient.auth.getSession().then(function(res) {
     if (res.data.session) {
@@ -1379,21 +1383,19 @@ async function runForecast(){
 // ── PAYPAL RETURN HANDLER ─────────────────────
 (function(){
   var params=new URLSearchParams(window.location.search);
-  if(params.get('type')==='recovery'){
-    // Password recovery - show reset form immediately and on auth state change
+  // Check hash for recovery token (Supabase puts token in hash)
+  var hash = window.location.hash;
+  var hashParams = new URLSearchParams(hash.replace('#',''));
+  if(params.get('type')==='recovery' || hashParams.get('type')==='recovery'){
     var showResetModal = function(){
       var modal=document.getElementById('reset-pwd-modal');
       if(modal) modal.classList.remove('hidden');
     };
-    // Show immediately
     showResetModal();
-    // Also show on DOMContentLoaded in case page not ready yet
     if(document.readyState==='loading'){
       document.addEventListener('DOMContentLoaded', showResetModal);
     }
-    // And after short delay as backup
     setTimeout(showResetModal, 500);
-    setTimeout(showResetModal, 2000);
   }
   if(params.get('type')==='signup'){var pending=localStorage.getItem('zeus_pending_plan')||'free';setTimeout(function(){if(supabaseClient)supabaseClient.auth.getSession().then(function(res){if(res.data&&res.data.session){updateAuthUI(res.data.session.user);localStorage.removeItem('zeus_pending_plan');history.replaceState({},'',window.location.pathname);if(pending==='pro'){showToast('Email confirmed! Taking you to PayPal...','success');setTimeout(startPayPal,1500);}else{showToast('Email confirmed! Welcome!','success');}}});},1500);}
   if(params.get('payment')==='success'){var token=params.get('token');if(token&&currentUser){fetch(API_BASE+'/paypal/capture/'+token,{method:'POST',headers:getAuthHeaders()}).then(function(r){return r.json();}).then(function(d){if(d.status==='success'){showToast('🎉 Upgraded to Pro!','success');if(supabaseClient)supabaseClient.auth.getUser().then(function(u){if(u.data.user)updateAuthUI(u.data.user);});}});}history.replaceState({},'',window.location.pathname);}
