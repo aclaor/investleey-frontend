@@ -554,8 +554,8 @@ html,body{background:var(--bg);color:var(--text);font-family:var(--body);font-si
       <input type="email" id="auth-email" placeholder="Email address">
       <input type="password" id="auth-password" placeholder="Password">
       <div class="modal-err" id="modal-err"></div>
-      <div id="forgot-pwd-link" style="display:none;text-align:right;">
-        <a href="#" onclick="handleForgotPassword();return false;" style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#607a99;text-decoration:none;">Forgot password?</a>
+      <div id="forgot-pwd-link" style="display:none;text-align:right;position:relative;z-index:10;">
+        <button onclick="handleForgotPassword();" style="background:none;border:none;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#607a99;cursor:pointer;padding:4px 0;text-decoration:underline;">Forgot password?</button>
       </div>
       <button class="modal-submit" onclick="handleAuth(event)">CREATE ACCOUNT</button>
     </div>
@@ -839,6 +839,8 @@ function showModal(mode) {
   if (title) title.textContent = mode==='login'?'SIGN IN':'CREATE ACCOUNT';
   if (sub) sub.textContent = mode==='login'?'Welcome back to ZEUS Vision':'7 days free — no credit card needed.';
   if (err) err.style.display='none';
+  var fpLink = document.getElementById('forgot-pwd-link');
+  if (fpLink) fpLink.style.display='none';
   if (btn) btn.textContent = mode==='login'?'SIGN IN':'CREATE ACCOUNT';
   var planGrid = document.querySelector('.plan-grid');
   if (planGrid) planGrid.style.display = mode==='login'?'none':'grid';
