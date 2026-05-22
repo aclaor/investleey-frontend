@@ -1137,10 +1137,8 @@ function loadPair(sym){var clean=sym.toUpperCase().trim();document.getElementByI
 function renderBottomTicker(){var inner=document.getElementById('bottom-bar-inner');if(!inner)return;inner.innerHTML=btData.concat(btData).map(function(d){var up=d.c>=0;return '<div class="bt" onclick="loadPair(\''+d.s.replace('/','')+'\')">'+'<span class="bt-s">'+d.s+'</span> <span class="bt-p">$'+d.p.toLocaleString(undefined,{maximumFractionDigits:4})+'</span> <span class="bt-c '+(up?'':'dn')+'">'+(up?'+':'')+d.c.toFixed(2)+'%</span></div>';}).join('');}
 async function fetchLiveTicker(){
   try{
-    // Financial Modeling Prep free - get batch quotes
-    var syms = 'AAPL,MSFT,GOOGL,NVDA,TSLA,META,AMZN,AMD,NFLX,JPM,SPY,QQQ,GLD,TLT';
-    var FMP_KEY='09Xf5iOI2MStdr52dQ7MiFFgauEUfELs';
-    var r = await fetch('https://financialmodelingprep.com/api/v3/quote/'+syms+'?apikey='+FMP_KEY);
+    // Use Railway proxy - bypasses all API limits
+    var r = await fetch(API_BASE+'/ticker');
     if(r.ok){
       var data = await r.json();
       if(Array.isArray(data) && data.length > 0){
